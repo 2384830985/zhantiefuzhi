@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: /hexo.png
+heroImage: ./hexo.png
 actionText: go →
 actionLink: /home/
 features:
