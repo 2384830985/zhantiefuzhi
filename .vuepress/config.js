@@ -50,7 +50,7 @@ module.exports = {
         // ]
     },
     dest: 'public',//打包的位置
-    base: 'https://2384830985.github.io/zhantiefuzhi/public/',//必须加不然打包出的少一个.
+    // base: 'https://2384830985.github.io/zhantiefuzhi/public/',//必须加不然打包出的少一个.
     post: '1234',//端口号http://0.0.0.0:8080.
     details: 'VuePress 为每个页面预渲染生成静态的 HTML，同时在页面被加载的时候，将作为 SPA 运行。',
     // footer: 'MIT Licensed | Copyright © 2018-present Evan You',
