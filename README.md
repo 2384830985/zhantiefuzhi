@@ -1,6 +1,6 @@
 ---
 home: true
-heroImage: https://2384830985.github.io/zhantiefuzhi/jinjinjin/hexo.png
+heroImage: https://2384830985.github.io/zhantiefuzhi/public/hexo.png
 actionText: go →
 actionLink: /home/
 features:
