@@ -155,7 +155,7 @@ module.exports = {
 
 vue+ts基本的项目搭建就完成了
 
-## 1.项目搭建
+## 3.项目搭建
 先看一波完成后的项目介绍（`webstorm`里面`ts`不支持引入`vue`所有爆红色，强迫症患者可以用`vscode`支持会更好）
 ![](https://user-gold-cdn.xitu.io/2018/10/31/166c97cb6827c1ef?w=405&h=727&f=png&s=39636)
 ```
@@ -227,7 +227,7 @@ vue+ts基本的项目搭建就完成了
 `main.js`差别也不大
 ![](https://user-gold-cdn.xitu.io/2018/10/31/166ca27f545a5c2a?w=1254&h=607&f=png&s=153549)
 
-## `app.vue`文件
+### `app.vue`文件
 
 ![](https://user-gold-cdn.xitu.io/2018/10/31/166ca29f4d4c3662?w=1325&h=568&f=png&s=139770)
 讲一下这个把 `vue-property-decorator`不然小伙伴们对这个会很不懂的
