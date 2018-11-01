@@ -155,19 +155,132 @@ module.exports = {
 
 vue+ts基本的项目搭建就完成了
 
-## 小结
-内容比较多我分6个专题来写这个vu+ts+element,如中间有问题可以直接下面留言
-[`第二集`](https://juejin.im/post/5bd96dd95188257f630da8df)
-<!--## Build Setup-->
+## 1.项目搭建
+先看一波完成后的项目介绍（`webstorm`里面`ts`不支持引入`vue`所有爆红色，强迫症患者可以用`vscode`支持会更好）
+![](https://user-gold-cdn.xitu.io/2018/10/31/166c97cb6827c1ef?w=405&h=727&f=png&s=39636)
+```
+  public //当前文件
+    static //可以放静态资源不会被打包（我放的是富文本编译器的文件后期会太慢可以换成cdn直接引入到index.html）
+  src //当前项目文件
+    assets //静态资源存放需要被打包
+    components //组件存放处
+        beforeUpload //单个图片上传组件 （基于element）
+        pagination //分页插件 （基于element）
+        reset //重置按钮组件
+        tinyMceEditor //富文本编译器（这个是重点ts支持的vue插件当前对于我们伸手党来说比较少）
+        uploadListImg //批量图片上传（基于element）
+        verification //表单验证
+    utils //当前项目公用方法
+    views //当前项目存放地址
+        aixo //当前项目ajax封装
+        content //当前项目业务逻辑
+        filters //当前项目过滤器
+        haveNot //404页面
+        layout //项目结构布局
+        login //当前项目登陆页面
+        method //当前项目的静态遍历存放
+        store //当前项目vuex存放（不要为了用vuex而用，其实很多项目都不需要用到vuex的）
+        system //权限管理相关
+        typings //ts定义使用
+        utils //存放其他文件（我这边存了cookie的文件）
+    app.vue //全局路由页面
+    main.ts //启始的js
+    permission.ts //路由中转页面
+    route //路由页面
+    shims-tsx.d //支持jsx
+    shims-vue.d //支持vue
+    vue-config //vue配置
+    vue-shim.d.ts //声明全局方法（ts会自动抓取.d.ts文件部分全局方法需要定义才可以使用）
+```
 
-<!--``` bash-->
-<!--# install dependencies-->
-<!--npm install //下载依赖-->
+组件组件后面会一个一个讲解，公共方法也会讲，先要下载当前需要的`ts`的插件
+```
+##   最主要到是这3个
+1.   aixo
+2.   element
+3.   js-cookie
+```
+看下package.js 可以看到我们当前到依赖
+![](https://user-gold-cdn.xitu.io/2018/10/31/166ca0f579843c00?w=1257&h=653&f=png&s=178351)
 
-<!--# serve with hot reload at localhost:8080-->
-<!--vue ui //用vue cli3脚手架下载工具去视图画下载依赖（以及打包运行）-->
-<!--```-->
+然后我们去下载当前到依赖
 
-<!--![项目结构](https://user-gold-cdn.xitu.io/2018/10/14/1667229711a67e0f?w=502&h=1086&f=png&s=107921)-->
-<!-->
-判断是否可以使用ts+vue是否支持福利[链接](https://microsoft.github.io/TypeSearch/)
+---
+### 福利篇
+教你如何看插件是否可以使用当前到`vue` + `ts`项目（当前`ts`+`vue`还是比较少）
+[`TypeSearch`](https://microsoft.github.io/TypeSearch/)
+如果和下面的图一样能搜索出来的基本可以判断支持ts
+![](https://user-gold-cdn.xitu.io/2018/10/31/166ca18c9bd65f38?w=1094&h=525&f=png&s=27425)
+
+---
+### 下载当前项目依赖
+我们打开当前图形管理工具
+![](https://user-gold-cdn.xitu.io/2018/10/31/166ca1b4bbe6653d?w=1871&h=778&f=png&s=134579)
+选择然后下载（还要下载当前`ts`的）
+![](https://user-gold-cdn.xitu.io/2018/10/31/166ca1e344c32ac5?w=1221&h=768&f=png&s=190835)
+![](https://user-gold-cdn.xitu.io/2018/10/31/166ca1cd1eeed073?w=1203&h=839&f=png&s=168400)
+这样才算把整个`aixo`下载好（其他插件都一样都需要下载2个）
+第二个主要是在`node_modules`里面的`@types`里面定义一遍才可以使用
+![](https://user-gold-cdn.xitu.io/2018/10/31/166ca2124e4cefd4?w=1528&h=530&f=png&s=122681)
+路由页面和`vue`的页面差别不是很大
+![](https://user-gold-cdn.xitu.io/2018/10/31/166ca26df1f4629d?w=1677&h=613&f=png&s=180837)
+`main.js`差别也不大
+![](https://user-gold-cdn.xitu.io/2018/10/31/166ca27f545a5c2a?w=1254&h=607&f=png&s=153549)
+
+## `app.vue`文件
+
+![](https://user-gold-cdn.xitu.io/2018/10/31/166ca29f4d4c3662?w=1325&h=568&f=png&s=139770)
+讲一下这个把 `vue-property-decorator`不然小伙伴们对这个会很不懂的
+```
+### vue-property-decorator
+@Prop  父子组件之间传值
+   ## 使用方式
+   @Prop({
+        type: String,
+        default: 'Default Value'
+    }) msg: string;
+
+@Model  数据双向绑定
+    @Model('change') checked: boolean
+
+@Watch  监听数据变化
+    //监听路由变化
+    @Watch('$route')
+    onRouteChanged(route: any, oldRoute: any) :void {
+        this.$forceUpdate() ## 刷新当前的数据
+    }
+
+@Provide  提供  /  @Inject  注入
+    ## 父
+     @Provide('users')
+      users = [
+        {
+          name: 'test',
+          id: 0
+        }
+      ]
+    ## 子
+    @Inject('users') users;
+
+修饰器
+    const Log = (msg) => {
+      return createDecorator((component, key) => {
+        console.log("#Component", component);
+        console.log("#Key", key); //log
+        console.log("#Msg", msg); //App
+      })
+    }
+    @Log('fullMessage get called')
+    get fullMessage() {
+      return `${this.message} from Typescript`
+    }
+
+```
+可能您还是不懂建议看下官方文档[`vue-property-decorator`](https://github.com/kaorun343/vue-property-decorator)这里就不详细赘述了，由于本人比较愚钝（伸手党一枚）
+
+![](https://user-gold-cdn.xitu.io/2018/10/31/166ca25f7845f8dc?w=1489&h=652&f=png&s=193789)
+下面送上项目成功后的样子（明天应该会详细讲解一下本ui整体的搭建以及插件的使用）具体的插件的文档会近期更新上
+![](https://user-gold-cdn.xitu.io/2018/10/31/166c9f3efe3b3b33?w=1912&h=964&f=png&s=141966)
+后面会有一个基于element+ts完整的后台会搞出来然后会出一个基础版本各位老爷点个赞👍
+![](https://user-gold-cdn.xitu.io/2018/10/31/166ca40f97bef2fa?w=1919&h=972&f=png&s=90281)
+
